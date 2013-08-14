@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="horizontal"
+	creationComplete="init()"
+	verticalAlign="middle"
+	horizontalAlign="center">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.containers.Canvas;
+			import classes.Facade;
+			
+			public function init():void
+			{
+				/*
+					The Facade can hide all of the complexity involved in
+					dealing with a subsystem and provide a much simpler
+					interface at the cost of some flexibility. For example
+					we can't change the size of the Canvases through the 
+					Facade alone.
+				*/
+				// Create the facade (or get an instance as it's a Singleton).
+				var facade:Facade = Facade.GetInstance();
+				
+				// Ask the Facade for an orange Canvas.
+				var canvas1:Canvas = facade.GetOrangeCanvas();
+				
+				// Ask the Facade for a green Canvas.
+				var canvas2:Canvas = facade.GetGreenCanvas();
+				
+				// Ask the Facade for a green Canvas.
+				var canvas3:Canvas = facade.GetPurpleCanvas();
+				
+				// Add the canvases to the application.
+				addChild(canvas1);
+				addChild(canvas2);
+				addChild(canvas3);
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

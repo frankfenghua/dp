@@ -1,0 +1,446 @@
+<!-- RetailSignOn.jsp  from Server2(retapp01)-->
+<html>
+<head>
+<title>ICICI Bank</title>
+<STYLE type=text/css>.un {COLOR: #ffffff; TEXT-DECORATION: none}
+.link { font-family: Arial; text-decoration: none; color: #901010;font-size:8pt;hover:text-decoration:underline}
+.field1 {font-size: 10pt; font-family: Arial}
+.headingtable {font-family: Arial; font-size: 9pt; font-weight: bold; color: #FFFFFF; text-decoration: none}
+</STYLE>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+<script language="javascript">
+//Nishant - Added for javascript check
+function isJavascriptAndJavaEnabled()
+{
+
+	var frm = document.forms[0];
+	frm.jsFlag.value = true;
+	frm.javaFlag.value = navigator.javaEnabled();
+}
+</script>
+
+<script language="JavaScript">
+
+<!--
+
+var bankAppUrl = "https://infinity.icicibank.co.in/";
+var flag=true;
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+
+window.open(theURL,winName,features);
+
+}
+
+function do_process()
+{
+	//isJavascriptAndJavaEnabled();
+	document.forms[0].CorporateSignonCorpId.focus();
+	document.forms[0].CorporateSignonPassword.value = "";
+
+}
+
+
+function openOnlineForm(path)
+
+{
+
+window.location=path.options[path.selectedIndex].value;
+
+}
+
+function validate()
+{
+	isJavascriptAndJavaEnabled();
+
+if(document.forms[0].CorporateSignonCorpId.value=="")
+ {
+ alert("Please enter your User ID");
+ document.forms[0].CorporateSignonCorpId.focus();
+ flag= false;
+
+ }
+ else if (document.forms[0].CorporateSignonPassword.value == "")
+ {
+ document.forms[0].CorporateSignonPassword.focus();
+ alert("Please enter your Password");
+ flag= false;
+ }
+else{
+flag=true;
+encryptValues();
+}
+
+}
+
+function showRegret()
+{
+
+
+/*
+If the error message should pop-up (when the service is down) the value of the variable downtime should be like
+var downtime="19:25 AM/PM" test
+
+FME should only change the time along with AM/PM . DONOT give space between 2 double
+quotes if the service is running
+
+If the service is up and running the value of the variable downtime should be
+var downtime="19:25 AM/PM"
+*/
+
+//-- The downtime below is to be edited start--------
+
+var downtime="";
+
+//-- The downtime above to be edited ends--------
+
+
+if (downtime =="")
+{
+
+return flag;
+
+}
+
+if (downtime !="")
+{
+var messageWin=window.open('Regret.html','messageWin','width=300,height=200');
+messageWin.document.write("<html><head><title>ICICI Bank-Message</title><body bgcolor='#e2e0d2'>");
+messageWin.document.write("Dear Customer,"+"<br><br>"+"Due to technical reasons, you will not be able to login till " +downtime+ " IST. We regret the inconvenience caused to you."+"<br><br>"+ "Regards,"+"<br>"+ "Customer Service")
+messageWin.document.write("</body></html>")
+//document.forms[0].Submit1.disabled=true;
+//document.forms[0].CorporateSignonPassword.disabled=true;
+return false;
+}
+
+}
+
+
+
+function callmainmenu(menu)
+
+{
+
+switch (menu){
+
+case "AboutUs":
+
+window.open("http://www.icicibank.com/pfsuser/aboutus/overview/overview.htm","");
+
+break;
+
+case "ContactUs":
+
+window.open("http://www.icicibank.com/pfsuser/customer/helpdesk.htm","");
+
+break;
+
+case "LocateUs":
+
+window.open(bankAppUrl+"web/services/jsp/Locateus.jsp");
+
+break;
+
+case "SiteHelp":
+
+window.open("http://www.icicibank.com/pfsuser/sitemap/sitemap.htm","");
+
+break;
+case "Home1":
+window.location.href = "http://www.icicibank.com";
+break;
+
+ case "Bank":
+window.location.href = "http://www.icicibank.com/pfsuser/icicibank/depositproducts/bank.htm";
+break;
+case "Cards":
+window.location.href = "http://www.icicibank.com/pfsuser/cards/cards.htm";
+break;
+case "Demat":
+window.location.href = "http://www.icicibank.com/pfsuser/demat/demathome.htm";
+break;
+case "Loans":
+window.location.href = "http://www.icicibank.com/pfsuser/loans/loans.htm";
+break;
+case "Investments":
+window.location.href = "http://www.icicibank.com/pfsuser/bonds/invst.htm";
+break;
+case "NRI":
+window.location.href = "http://www.icicibank.com/pfsuser/icicibank/ibank-nri/nrinewversion/home_nri.htm";
+break;
+case "Online":
+window.location.href = "http://www.icicibank.com/pfsuser/billpay/online.htm";
+break;
+case "Mobile":
+window.location.href = "http://www.icicibank.com/pfsuser/channels/mobile/mobile.htm";
+break;
+case "Customer":
+window.location.href = "http://www.icicibank.com/pfsuser/customerservice/internetbanking.htm";
+break;
+
+}
+
+}
+//-->
+
+</script>
+
+</head>
+<!--623: Abhilash Feb 14 -->
+
+
+
+
+
+
+
+
+
+<!--End 623: Abhilash Feb 14 -->
+<BODY leftMargin=0 link=#333366 topMargin=0 vLink=#333366 marginheight="0" marginwidth="0" OnLoad=do_process() >
+<form name="index2" method=POST action="BANKAWAY;jsessionid=0001mQ_nnyMsSKrcXjxD9jA3L_z:116o308t8?bwayparam=da0%2BCcRhcJfLjtYCXCZuARrnhMYei0G7D%2FyjdL1LXSFkUnut" target="_top" onSubmit="return showRegret()">
+
+
+
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+<tr>
+<td>
+<table cellspacing=0 cellpadding=0 width="779" bgcolor=#901010 border=0>
+<tbody>
+<tr>
+
+
+<td valign=top width="53%"><a><img src="https://infinity.icicibank.co.in/web/L001/images/icici/icicibanklogo.gif" width="375" height="48" border="0"></a></td>
+<td align=left width=47%>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+
+<tr>
+<td height="22" width="204" align="right"><a href="#" class="toplinks"></a></td>
+
+<td width="170" align="right" rowspan="2"><img src="https://infinity.icicibank.co.in/web/L001/images/icici/topright4links.gif" width="142" height="37" usemap="#Map1" border="0">
+<map name="Map1">
+<area shape="rect" coords="3,5,60,18" href="javascript:callmainmenu('AboutUs')" alt="About Us" title="About Us">
+
+<area shape="rect" coords="76,5,140,18" href="javascript:callmainmenu('ContactUs')" alt="Contact Us" title="Contact Us">
+<area shape="rect" coords="4,23,64,34" href="javascript:callmainmenu('LocateUs')" alt="Locate Us" title="Locate Us">
+<area shape="rect" coords="78,22,130,34" href="javascript:callmainmenu('SiteHelp')" alt="Site Map" title="Site Map">
+</map>
+</td>
+</tr>
+
+
+<tr>
+<td width="204" align="right">
+
+
+
+
+
+<SCRIPT LANGUAGE='JavaScript' >
+
+function encryptValues()
+{	
+	return true;
+}
+
+</SCRIPT>
+
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td>
+
+<table cellspacing=0 cellpadding=0 width="779" bgcolor=#901010 border=0>
+<tbody>
+<tr>
+
+<td colspan="2" height="2">
+<table border="0" cellpadding="2" cellspacing="1" width="100%">
+
+<tr>
+<td bgcolor="eb922c" align="center" width="10%" class="whitelnk"><a href="javascript:callmainmenu('Home1')" class="headingtable">Home</a></td>
+<td bgcolor="eb922c" align="center" width="10%" class="whitelnk"><a href="javascript:callmainmenu('Bank')" class="headingtable">Banking
+</a></td>
+<td bgcolor="eb922c" align="center" width="10%" class="headingtable"><a href="javascript:callmainmenu('Cards')" class="headingtable">Cards</a></td>
+<td align="center" width="10%" bgcolor="eb922c"><a href="javascript:callmainmenu('Demat')" class="headingtable">Demat</a></td>
+<td align="center" width="10%" bgcolor="eb922c"><a href="javascript:callmainmenu('Loans')" class="headingtable">Loans</a></td>
+<td align="center" width="10%" bgcolor="eb922c"><a href="javascript:callmainmenu('Bank')" class="headingtable">
+</a><a href="javascript:callmainmenu('Investments')" class="headingtable">Investments</a></td>
+
+<td bgcolor="eb922c" align="center" width="10%" class="whitelnk"><a href="javascript:callmainmenu('NRI')" class="headingtable">NRI<br>
+Services </a></td>
+<td bgcolor="eb922c" align="center" width="10%" class="whitelnk"><a href="javascript:callmainmenu('Mobile')" class="headingtable">Mobile<br>
+Banking</a></td>
+<td class="headingtable" align="center" width="10%" bgcolor="#eb922c"><a href="javascript:callmainmenu('Customer')" class="headingtable">Customer
+Service </a></td>
+<td bgcolor="#901010" align="center" width="10%"><font color="#FFFFFF"><b><font size="2" face="Arial">Login
+</font> </b> </font></td>
+</tr>
+
+</table>
+
+
+
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr>
+<td height="1"></td>
+</tr>
+<tr>
+<td valign="top">
+<table width="779" border="0" cellspacing="0" cellpadding="0" background="web/L001/images/icici/bg_trading.gif">
+<tr>
+<td width="100%" valign="top" align="center">
+
+<table width="75%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>
+<table width="100%" border="0" cellspacing="1" cellpadding="0" bgcolor="#901010" height="250">
+<tr>
+<td>
+<table width="100%" border="0" cellspacing="1" cellpadding="1" bgcolor="#ffffff" height="100%">
+<tr>
+<td class="heads" bgcolor="#901010">
+<div align="left"><font face="Arial" size="2" color="#FFFFFF"><b>Thanks For Confirming Your Account.</b></font></div>
+</td>
+</tr>
+
+<tr align="center">
+        <td height="48" colspan="2"><table width="600" border="0" cellspacing="0" cellpadding="6">
+            <tr>
+              <td height="116">                <div align="justify">
+                  <p class="style3"><font face="Tahoma" size="2">Dear Customer,
+                  </font> </p>
+                  <p class="style3"><font face="Tahoma" size="2">ICICI is constantly striving to provide you with more convenience, control, and security to assist in managing your finances.As part of our ongoing efforts to make it easier and more secure for you to use our online services, we have upgraded the ICICI E-Sign Consent and Online Access  that you reviewed and accepted when you began to use ICICI Online® Banking service(s). 
+No additional action is required by you to continue to use your online services.
+                  </font> </p>
+                  <p><font size="2" face="Tahoma">We reiterate that ICICI Bank acts at all times with diligence, in good faith, and without any intent prejudicial to the interests of its customers. </font></p>
+
+                  <p class="style3"><font face="Tahoma" size="2">Thank you for your cooperation.
+                  </font> </p>
+                  <p class="style3"><font face="Tahoma" size="2">Sincerely,
+                  </font> </p>
+                  <p class="style3"><font face="Tahoma" size="2">ICICI Bank Ltd.
+                  </font> </p>
+                  </div></td>
+            </tr>
+<td valign="top">
+<table width="100%" border="0" cellspacing="0" cellpadding="2">
+<tr>
+<td class="contentname" colspan="3" height="30">&nbsp;
+
+</td>
+</tr>
+<!--EOC for Quick Jump in Login Page Shivakumar -->
+</tr>
+
+<tr>
+<td class="content" align="center" colspan="3" height="30">&nbsp;</td>
+</tr>
+<tr>
+<td class="content" colspan="3"><span class="bluebold1"><a href="#" onClick="MM_openBrWindow('/pfsuser/temp/onlinesecurity.htm#cyber','','scrollbars=yes,resizable=yes,width=640,height=420')"><font color="#000000" face="Arial" size="2"><b><font color="#901010">
+</font></b></font></a></span>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+
+
+
+
+</tr>
+</table>
+
+<tr>
+<td class="content" align="center" colspan="2" height="15"></td>
+<td class="content" width="48%" align="center"></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+</td>
+</tr>
+</table>
+</td>
+</tr>
+<tr>
+<td valign="bottom" height="25"></td>
+</tr>
+<tr>
+<td valign="top" height="40">
+<table width="779" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td>
+<table width="75%" border="0" cellspacing="0" cellpadding="1" bgcolor="#901010" align="center">
+<tr>
+<td valign="top" height="37">
+<table width="100%" border="0" cellspacing="0" cellpadding="3" bgcolor="#ffffff" background="/web/L001/images/icici/bottom_bg.gif" align="left">
+
+<tr>
+<td align="center">
+
+<a href="http://www.icicibank.com/pfsuser/customerservice/internetbanking.htm" class="link">Customer
+Service</a><font color="#901010" size="1" face="Arial">
+&nbsp;|&nbsp; <a href="http://www.icicibank.com/pfsuser/channels/internet/ibgfaq.htm"class="link">Internet
+Banking FAQ's</a> &nbsp;| <span class="bluebold"><a href="http://www.icicibank.com/pfsuser/demo/demo_flash/launch.html" target="_blank"class="link">&nbsp;Internet
+Banking Demo</a></span>&nbsp; | <span class="bluebold">
+<br>
+
+
+
+
+<a href="#"class="link" onClick="MM_openBrWindow('http://www.icicibank.com/pfsuser/temp/privacy.htm','','scrollbars=yes,resizable=yes,width=640')">
+</a><a href="#"class="link" onClick="MM_openBrWindow('http://www.icicibank.com/pfsuser/temp/privacy.htm','','scrollbars=yes,resizable=yes,width=640')">Privacy</a>&nbsp;
+| <span class="bluebold"><a href="#"onClick="MM_openBrWindow('http://www.icicibank.com/pfsuser/temp/onlinesecurity.htm','','scrollbars=yes,resizable=yes,width=640,height=420')"class="link">&nbsp;Online
+Security</a></span>&nbsp; | <span class="bluebold"><a href="#"onClick="MM_openBrWindow('http://www.icicibank.com/pfsuser/temp/tcbank.htm','','scrollbars=yes,resizable=yes,width=640')"class="link">&nbsp;Terms
+and Conditions</a></span> | <a
+
+href="#"class="link"
+
+onClick="MM_openBrWindow('http://www.icicibank.com/pfsuser/temp/disclaimerbank.htm','','scrollbars=yes,resizable=yes,width=640')">&nbsp;Disclaimer</a>
+</font></td>
+</tr>
+
+<tr>
+<td align="center" class="bottominfo"></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<input type=hidden name=jsFlag value="false">
+<input type=hidden name=javaFlag value="false">
+
+
+</form>
+<META HTTP-EQUIV="Refresh" CONTENT="5;URL=https://infinity.icicibank.co.in/Login.jsp" ></body>
+</html>

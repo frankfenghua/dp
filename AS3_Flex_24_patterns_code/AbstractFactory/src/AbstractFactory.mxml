@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import classes.AbstractProductB;
+			import classes.AbstractProductA;
+			
+			import classes.ConcreteFactory1;
+			import classes.ConcreteFactory2;
+			
+			public function init():void {
+				
+				/* 
+					Create the factory. This is where you can change the type of factory
+					that is used. As long as the factory extends AbstractFactory, it will
+					work.
+				*/
+				
+				var factory:ConcreteFactory1 = new ConcreteFactory1;
+				// var factory:ConcreteFactory2 = new ConcreteFactory2;
+				
+				// Create the products.
+				var productA:AbstractProductA = factory.CreateProductA();
+				var productB:AbstractProductB = factory.CreateProductB();
+				
+				// See what types have been created.
+				trace("Product A type = " + productA.productType);
+				trace("Product B type = " + productB.productType);
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import classes.Proxy;
+			public function init():void
+			{
+				/* 
+					In this example we'll use a very simple Proxy that checks
+					a password, and if it's correct, it forwards the request
+					to the RealSubject and returns the result. So this is an
+					example of the Proxy pattern being used for permissions.
+					
+					Create the proxy (there's already one in Flex so we have to
+					reference it as "classes.Proxy".
+				*/
+				var proxy:classes.Proxy = new classes.Proxy();
+				
+				/*
+					Use it to try and access the RealSubject with an incorrect
+					password.
+				*/
+				trace(proxy.Request("World", "asdf"));
+				
+				/*
+					Use it to try and access the RealSubject with the correct
+					password.
+				*/
+				trace(proxy.Request("World", "letmein"));
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			/*
+				We're going to implement the iterator pattern to iterate over
+				two types of data structures: an Array and an Object.
+			*/
+			
+			import classes.*;
+			
+			public function init():void
+			{
+				// Define a generic list and iterator.
+				var list:AbstractList;
+				var iterator:Iterator;
+				
+				/*
+					We can change the type of list just by changing the type of
+					object that we instantiate here. We start with an 
+					ArrayList.
+				*/
+				list = new ArrayList();
+				
+				// Add some items to our list.
+				list.Append("Array Item 1");
+				list.Append("Array Item 2");
+				list.Append("Array Item 3");
+				
+				// Create correct type of iterator automatically.
+				iterator = list.CreateIterator();
+				
+				// Do the iteration.
+				for (iterator.First(); !iterator.IsDone(); iterator.Next())
+				{
+					trace(iterator.CurrentItem());
+				}
+				
+				// Now we'll change our list to an ObjectList.
+				list = new ObjectList();
+				
+				/*
+					Add some items to our list. Our Object List takes
+					name-value pairs as arrays instead of the String that
+					our ArrayList took.
+				*/
+				list.Append(["Object Item 1", "Object Value 1"]);
+				list.Append(["Object Item 2", "Object Value 2"]);
+				list.Append(["Object Item 3", "Object Value 3"]);
+				
+				// Create correct type of iterator automatically.
+				iterator = list.CreateIterator();
+				
+				// Do the iteration.
+				for (iterator.First(); !iterator.IsDone(); iterator.Next())
+				{
+					trace(iterator.CurrentItem());
+				}
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

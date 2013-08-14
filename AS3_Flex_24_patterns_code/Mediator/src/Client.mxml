@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="horizontal"
+	verticalAlign="middle"
+	horizontalAlign="center"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			/*
+				This example will implement the Mediator pattern where an
+				object is used to encapsulate the logic that controls how
+				various other objects interact with one another.
+			*/
+			import classes.*;
+			public function init():void
+			{
+				/*
+					Create the Mediator, which in this case is a subclass
+					of the Canvas.
+				*/
+				var mediator:Mediator = new Mediator();
+				addChild(mediator);
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

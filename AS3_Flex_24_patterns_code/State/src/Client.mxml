@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			/*
+				We're going to implement the State pattern where an object will
+				respond in a different way depending on the 'state' it's in.
+				
+				States are represented by classes that implement the State
+				interface. You can change the state of the context by passing
+				in one of these states.
+				
+				The aim is to group related responses in to objects. The
+				alternative could be a bit switch-case statement which isn't
+				very nice.
+			*/
+			
+			import classes.*;
+			
+			public function init():void
+			{
+				/*
+					Create the context. It will automatically be initialised
+					with ConcreteStateA.
+				*/
+				var context:Context = new Context();
+				
+				// Trace the request to see if it responds correctly.
+				trace(context.Request());
+				
+				/*
+					Use the ChangeState() method and pass in the object that
+					represents the state we want to change to.
+				*/
+				context.ChangeState(new ConcreteStateB());
+				
+				// Trace the request to see if it responds correctly.
+				trace(context.Request());
+				
+				/*
+					And again for state C.
+				*/
+				context.ChangeState(new ConcreteStateC());
+				
+				// Trace the request to see if it responds correctly.
+				trace(context.Request());
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

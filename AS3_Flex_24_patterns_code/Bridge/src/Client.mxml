@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import classes.Abstraction;
+			public function init():void
+			{
+				// Create the Abstraction.
+				var abstraction:Abstraction = new Abstraction();
+				trace(abstraction.Operation());
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

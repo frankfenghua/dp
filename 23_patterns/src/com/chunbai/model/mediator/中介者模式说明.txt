@@ -1,0 +1,188 @@
+http://www.kaifa6.com/v/DelphiShejiMoshi/%D6%D0%BD%E9%D5%DF%C4%A3%CA%BD.mht
+
+
+适用性： 
+1. GUI组件间的相互协调合作。 
+2. Mediator使用的情形很少，使用时首先应谨慎判断是否自己在滥用模式。 
+? 
+优点： 
+1. 避免Colleague对象之间的过度耦合，增加各Colleague和Mediator的复用性。 
+2. Mediator将控制逻辑集中，简化了系统的维护（一对多代替多对多的交互）。 
+缺点： 
+如果设计不当，Mediator对象会相当复杂。
+
+
+食堂里厨房最远的窗口没熬白菜了，要告诉厨房，快送过来。
+中介者模式：专门派一个人负责传话，任何窗口没菜了，就要这个人赶快去厨房催。
+中介者模式是把多个类之间的蜘蛛型网状结构重组成面向中介者的星型网状结构
+
+
+中介者模式：中介模式封装一系列的对象交互，集中管理相关对象之间复杂的沟通和交互。中介者使各对象不需要明显的相互引用，从而使其耦合松散，而且可以独立地改变它们之间的交互。简单点来说，将原来两个直接引用或者依赖的对象拆开，在中间加入一个“中介”对象，使得两头的对象分别和“中介”对象引用或者依赖。 
+
+
+目的(Intent)
+     定义一个对象封装一组对象彼此间如何互动。中介者模式避免这一组对象彼此间明确的参考促使低耦合性，同时让你独立的改变它们的接口不会相互影响。
+动机(Motivation)
+     对象导向设计促使将行为分散在各个对象间。这种分散的状况可能造成一个对象结构中对象有许多沟通，最惨的状况是；每一个对象没有办法知道所有的其它对象。
+     经由分解一个系统成许多对象一般增强再使用性，而激增的互动关系则减低其再使用性。许多内在互动使得似乎如果没有其它对象之支持一个对象没有办法单独工作，这个系统动起来有如一个庞然大物(monolithic)。更甚的是难以有任何显著(significant)的方法改变系统的行为；这是因为行为是分布在许多对象上。因此你可能被迫定义许多子类以客制化系统的行为。
+     有一个例子：在图形化使用者接口中实现对话框(dialog boxes)。一柜对话框使用一个窗口显示一些工具如按钮(buttons)、选单(menus)及输入字段(entry fields)等。在着对话框中的工具往往彼此关连。例如一个按钮在某个输入字段为空白时必须无效(disabled)。在列示盒(list box)中选择一个项目时可能自动改变输入字段的内容。相反的；在输入字段中输入一些字符串可能自动选择列示盒中一到多个相关项目。只要在输入字段中有字符串显示；则其它按钮便可以有效(enabled)让是使用者可以对这些文字执行某些动作；如改变或删除相关的东西。
+     不同的对话框其中的工具会有不同的相关，所以即使对话框显示相同的工具，它们也无法简单的再使用工具组(stock widget)类。它们必须客制化以显示特定相关的对话框。客制化便需要个别的继承以致于变的冗长；这是因为有许多类的参与的关系。
+     你可以以封装这些集合的行为到另一个中介者对象中来避免这个问题。这个中介者对象负责控制及协调一群对象的互动关系。中介者对象就像一个中间媒介；以避免这一群对象个别的参考到其它对象。这些对象只知道中介者对象；因此可以降低互动关系的数量。
+     例如；FontDialogDirctor是对话框中各个工具的中介者。FontDialogDirctor对象知道所有对话框中的所有工具及协调它们之间的互动关系。
+     
+     下列互动图说明对象协调处理一个列示盒选择的改变：
+     
+     下列说明上图一连串的事件：一个列示盒选择项目后传递给输入字段。
+1. WidgetChanged()：列示盒告诉其控制器(director)它已被改变。
+2. GetSelection()：控制器从列示盒得到改变的状况。
+3. SetText()：控制器将选择的状况传递给输入字段。
+4. 现在输入字段含有某些文字，控制器让按钮有效以初始一个动作（如半粗体(demibold)斜角显示(oblique)）。
+     注意控制器如何居中协调列示盒及输入字段。工具间彼此沟通只能间接的透过控制器。他们无须知道其它的对象；他们所知道的只是控制器。更进一步；因为行为被区域化在一个类内，它可以经由扩充或取代这些类以改变或取代。
+     下面类图说明FontDialogDirector抽象可以整合到一个类程序馆(library)：
+     
+     TdialogDirector是一个抽象类定义对话框所有的行为。使用端呼叫ShowDialog()操作以在屏幕显示对话框。CreateWidgets()是一个构建对话框工具的抽象操作。WidgetChanged()是另一个抽象操作，工具呼叫它以通知它的控制器它已被改变了。TDialogDirctor子类改写CreateWidgets()以构建适当的工具；同时改写WidgetChanged()处理改变的状况。
+适用性(Applicability)
+当下列状况使用中介者模式：
+● 一组对象的沟通方式已良好定义但是很复杂，以致于其结果是相互关连是非结构化并且难以了解。
+● 难以再使用一个对象；系因为其参考或沟通许多对象。
+● 一个行为分散到许多类要能客制化而无须以继承方式。
+结构(Structure)
+
+典型的对象结构看起来如下：2001/4/19
+
+参与者(Participants)
+● Tmediator(TDialogDirector)
+― 定义一个接口与同僚(Colleague)对象沟通。。
+● TConcreteMediator(TFontDialogDirector)
+― 经由协调(coordinating)同僚对象实现合作(cooperative)行为。
+― 知道并维护其同僚对象。
+● TColleague classes(TListBox、TEntryField)
+― 每一个同僚对象知道其中介者对象。
+― 每一个同僚对象在任何时候需要与其它同僚对象沟通时与其中介者对象沟通。
+合作(Collaborations)
+● 同僚对象送出请求给中介者对象并从中介者对象接收请求。中介者对象经由安排传送请求给其它参与同僚对象间的路径实现这些合作行为。
+结论(consequences)
+中介者模式有下列利益及缺点：
+1. 减少继承：中介者模式将分散于许多对象的行为区域化，改变这些需要继承的行为为中介者所专有；而同僚对象仍然可以再使用。
+2. 降低同僚对象的耦合性：中介者模式促使同僚对象间松耦合性，你可以独立改变及再使用同僚及中介者类。
+3. 简化对象通讯协议：中介者对象取代介于中介者与其同僚对象间多对多互动为一对多互动关系。一对多关系易于了解、维护及扩充。
+4. 淬取(abstracts)对象如何合作：让调停动作独立出来的概念并封装成一个对象让你将焦点放在把对象如何互动从它们个别行为中区隔开来，如此可以帮助厘清对象如何在系统中互动。
+5. 集中化控制：中介者模式将复杂的互动变成其内部的复杂动作。因为一个中介者对象封装通讯协议；可能会变的比任一个别同僚对象更复杂，如此让中介者本身变的庞大而难以维护。
+实现(implementation)
+下列实现议题是有关中介者模式：
+1. 忽略抽象中介者类：若同僚对象只与一个中介者对象合作时则无须定义一个抽象中介者类。提供的多个中介者类可以让同僚对象与不同的中介者子类合作，以此类推。
+2. 同僚对象与中介者对象间的沟通：当有关的事件发生时同僚对象必须与其中介者对象沟通。有一种方式是使用观察者模式(Observer)实现中介者模式成为一个观察者。此时同僚对象就像是受观察对象，任何时候只要其状态改变便通知中介者对象，中介者对象的反应是传播(propagate)改变的效应到其它的同僚对象。
+   另一种方式是在中介者对象定义一个特殊通知接口让同僚对象可以更直接沟通。Smalltalk/V for Windows使用一个委托的方式(form)：当与中介者对象沟通时；同僚对象将本身当作参数传递；允许中介者对象识别传送者。范例程序中使用这种方式。在后面曾经使用的例子一节中会再讨论。
+范例程序(Sample Code)
+     我们使用TDialogDirector实现前述的字形对话框，抽象类Tdialog- Director定义控制器的接口。
+  TDialogDirector = class
+  protected
+    constructor Create;
+    procedure CreateWidget(awidget: TWidget); virtual; abstract;
+  public
+    destructor Destroy; virtual;
+
+    procedure ShowDialog(); virtual;
+    procedure WidgetChanged(); virtual; abstract;
+  end;     TWidget是工具的抽象类，每一个工具需要知道其控制器：
+  TWidget = class
+  private
+    f_director: TDialogDirector;
+  public
+    constructor Create(adialogdirector: TDialogDirector);
+    procedure Changed(); virtual;
+
+    procedure HandleMouse(event: TMouseEvent); virtual;
+    //.........
+  end;     Changed()呼叫控制器的WidgetChanged()操作。TWidegt呼叫其控制器的WidgetChanged()以通知要注意的事件。
+implementation
+procedure TWidget.Changed();
+begin
+  f_director.WidgetChanged(self);
+end;     TDialogDirector的子类改写WidgetChanged()以影响适当的TWidget对象。TWidget将其本身当作参数传递给WidgetChanged()让控制器识别这个被改变的TWidget对象。TDialogDirector的子类重新定义CreateWidget()抽象程序以便在对话框中构建TWidget对象。
+     TmyListBox、TmyEntryField及TmyButton是TWidget的子类；它们都是特殊的使用者接口组件，TmyListBox提供一个GetSelection()操作取得目前的选择，TmyEntryField的SetText()操作将新字符串放入字段中。《译注：为区别Delphi的VCL，原文ListBox、EntryField及Button改为TmyListBox、TmyEntryField及TmyButton》
+  TmyListBox = class(TWidget)
+  public
+    constructor Create(adialogdirector: TDialogDirector);
+
+    function GetSelection(): string; virtual;
+    procedure SetList(listItem: TList); virtual;
+    procedure HandleMouse(event: TMouseEvent); virtual;
+    //......
+  end;
+
+  TmyEntryField = class(TWidget)
+  public
+    constructor Create(adialogdirector: TDialogDirector);
+
+    procedure SetText(const text: string); virtual;
+    function GetText(): string; virtual;
+    procedure HandleMouse(event: TMouseEvent); virtual;
+    //......
+  end;     TmyBotton是一个简单的TWidget，当它被按下时呼叫Changed()；这些是记录在其HandleMouse()实现中。
+  TmyButton = class(TWidget)
+  public
+    constructor Create(adialogdirector: TDialogDirector);
+
+    procedure SetText(const text: string); virtual;
+    procedure HandleMouse(event: TMouseEvent); virtual;
+    //......
+  end;
+
+implementation
+
+procedure TmyButton.HandleMouse(event: TMouseEvent);
+begin
+//....
+  Changed();
+end;     TFontDialogDirector类居中协调对话框中的TWidget。TFontDialog- Director是TDialogDirector的子类。
+  TFontDialogDirector = class(TDialogDirector)
+  private
+    f_ok: TmyButton;
+    f_cancel: TmyButton;
+    f_fontList: TmyListBox;
+    f_fontName: TmyEntryField;
+  protected
+    procedure CreateWidget(); virtual;
+  public
+    constructor Create;
+    destructor Destroy; virtual;
+    procedure WidgetChanged(awidget: TWidget); virtual;
+  end;     TFontDialogDirector持续追踪其显示的TWidget组件。他重新定义CreateWidget()以构建TWidget组件并初始化其参考它们。
+procedure TFontDialogDirector.CreateWidget();
+begin
+  f_ok := TmyButton.Create(self);
+  f_cancel := TmyButton.Create(self);
+  f_fontList := TmyListBox.Create(self);
+  f_fontName := TmyEntryField.Create(self);
+//在listbox中填入可用的字型
+//组合Widget到对话框中
+end;     WidgetChanged()确保TWidget组件一齐适当的工作：
+procedure TFontDialogDirector.WidgetChanged(theChangedWidget: TWidget);
+begin
+  if (theChangedWidget = f_fontList) then
+    f_fontName.SetText(f_fontList.GetSelection())
+  else if (theChangedWidget = f_ok) then
+  begin
+    //执行自行变换及解除作业
+    //.....
+  end
+  else if (theChangedWidget = f_cancel) then
+  begin
+    //解除作业
+  end;     WidgetChanged()随这对话框的复杂性增加也随者复杂化。大的对话框是因其它原因而不受欢迎的；当然；不是中介者模式的复杂化可能减低这个模式在其它应用上的利益。2001/4/20
+曾经使用的例子(Known uses)
+     ET++及THINK C类程序馆在对话框使用类似控制器的对象作为所有工具间的中介者。Smalltalk/V的窗口应用系统架构是依据中介者结构。在其环境中一个应用系统拥有一个窗口包含一组框版(panes)。其程序馆包含多个事先定义的框版对象如文字框版(TextPane)、列示盒、按钮等等。这些框版使用时无须继承。一个应用程序开发者只是从ViewManager继承；这是一个负责框版内部合作的类。ViewManager是一个中介者对象所有的框版只知道其ViewManager，也可以说ViewManager是框版的拥有者(owner)。框版无须直接参考其它对象。
+     下列对象图显示应用系统执行期的一点：
+     
+     Smalltalk/V在Pane-ViewManager沟通中使用一个事件机制。一个框版当它要从中介者对象或的一个信息或者通知中介者对象某些重要的事情发生时它产生一个事件。一个事件可定义一个标记(symbol)（如#select）以区分事件。要处理事件；ViewManager以框版登录一个方法选择器，这个方法选择器是事件的处理者，每当事件发生它会被启动。下例程序代码显示一个ListPane对象在ViewManager子类中被构建及ViewManager登录一个事件处理以处理#select事件。
+//SmallTalk程序代码
+self addsubpane: (ListPane new
+      paneName: ’myListPane’;
+      owner: self;
+      when: #select perform: #listSelect;).     另一个中介者模式的应用系统是协调复杂更新。有一个在观察者(Observer)模式中的ChangeManager类。ChangeManager调停观察者与受观察者以避免过于累赘的更新。当一个对象改变，它通知ChangeManager；亦即协调在更新时通知其它相关对象。
+     在Unidraw有类似的应用系统；使用一个类称为CSolver强迫网络联机中连接者(connectors)的限制。在图形编辑中的对象可以显示以不同的分枝到其它者。连接者在应用维护自动连接方面是有用的；像图形编辑器及环形(circuit)设计系统。CSolver是介于连接者间的一个中介者对象。它解决联机限制及更新连接者的位置以反应它们。
+相关模式(Related Patterns)
+     外观模式(Facade)与中介者模式不同点是其抽象一个对象子系统已提供更适当的接口。它的通讯协议是单向(unidirectional)的，亦即外观对象向一个子系统类请求服务但反向则否。相对的中介者模式提供同僚对象未提供或无法提供的合作行为，同时其通讯协议是多向的(multidirectional)。
+     同僚对象可以使用观察者(Observer)模式实现与中介者对象沟通的方式。2001/4/23
+

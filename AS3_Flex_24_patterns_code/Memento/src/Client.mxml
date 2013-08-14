@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:co="components.*"
+	layout="horizontal"
+	verticalAlign="middle"
+	horizontalAlign="center"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			/*
+				We're going to use the Memento pattern in an application
+				that lets you set the color of a canvas. We will maintain
+				a history of states, which are called the caretaker. This
+				is an array of Mementos. Clicking on a Memento will restore
+				the application to its state.
+			*/
+			import classes.*;
+			import mx.events.ListEvent;
+			import mx.collections.ArrayCollection;
+			
+			// This is the array to hold the menu items.
+			[Bindable] public var menu:ArrayCollection = new ArrayCollection();
+			
+			// This is the Caretaker which manages the Mementos.
+			[Bindable] public var caretaker:ArrayCollection = new ArrayCollection();
+			
+			public function init():void
+			{
+				// Create a menu of colors we can change to.
+				menu.addItem(new MenuItem("Red", 0xFF0000));
+				menu.addItem(new MenuItem("Orange", 0xFFCC00));
+				menu.addItem(new MenuItem("Yellow", 0xFFFF00));
+				menu.addItem(new MenuItem("Green", 0x00ff00));
+				menu.addItem(new MenuItem("Blue", 0x0000ff));
+				menu.addItem(new MenuItem("Indigo", 0x9900ff));
+				menu.addItem(new MenuItem("Violet", 0xff00ff));
+				menu.addItem(new MenuItem("White", 0xffffff));
+				menu.addItem(new MenuItem("Grey", 0x999999));
+				menu.addItem(new MenuItem("Black", 0x000000));
+				
+				/* 
+					Create the first command so that a user can return to the
+					original state of the application.
+				*/
+				Command("Open", 0xffffff);
+			}
+			
+			/* 
+				We could have used the Command pattern and created an object
+				here, but we're just going to use a function for simplicity.
+			*/
+			public function Command(name:String, color:int):void
+			{
+				// Change the originator according to the new instruction.
+				originator.setStyle("backgroundColor", color);
+				
+				/* 
+					Ask the Originator for a Memento of its internal state
+					and give it to the Caretaker to look after.
+				*/
+				caretaker.addItem(originator.CreateMemento(name));
+			}
+			
+			public function menuClickHandler(event:ListEvent):void
+			{
+				// A menu item has been clicked so run the command.
+				Command(menu[event.rowIndex].name, menu[event.rowIndex].color);
+			}
+			
+			public function statesClickHandler(event:ListEvent):void
+			{
+				/*
+					A state has been clicked, so the user wants to return to
+					a previous state. We pass the Memento for this state to
+					the Originator and use the SetMemento method to return
+					the Originator to the state captured in the Memento.
+				*/
+				originator.SetMemento(caretaker[event.rowIndex]);
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<mx:HBox 
+		width="600" 
+		height="400" 
+		backgroundColor="#FFFFFF"
+		paddingBottom="10" 
+		paddingLeft="10" 
+		paddingRight="10" 
+		paddingTop="10">
+		
+		<mx:DataGrid id="menuView" 
+			width="30%" 
+			height="100%" 
+			dataProvider="{menu}" 
+			itemClick="menuClickHandler(event)">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Menu" dataField="name" />
+			</mx:columns>
+		</mx:DataGrid>
+		
+		<co:Originator id="originator" />
+			
+		<mx:DataGrid id="statesView"
+			width="30%" 
+			height="100%"
+			dataProvider="{caretaker}"
+			itemClick="statesClickHandler(event)">
+			<mx:columns>
+				<mx:DataGridColumn 
+					headerText="States" 
+					dataField="name" />
+			</mx:columns>
+		</mx:DataGrid>
+		
+	</mx:HBox>
+	
+</mx:Application>

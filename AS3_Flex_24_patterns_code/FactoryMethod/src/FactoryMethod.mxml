@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import classes.*;
+			public function init():void
+			{
+				// Instantiate the creator. Can be of various types as long as it is a subclass of Creator.
+				// var aCreator:ConcreteCreator1 = new ConcreteCreator1();
+				var aCreator:ConcreteCreator2 = new ConcreteCreator2();
+				
+				// Call the Factory Method on the creator to get a product.
+				var aProduct:Product = aCreator.FactoryMethod();
+				
+				// See if we have got the Concrete Product instead of the Abstract one.
+				trace(aProduct.productType);
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

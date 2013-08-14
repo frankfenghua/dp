@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:co="components.*" 
+	layout="horizontal"
+	horizontalAlign="center"
+	verticalAlign="middle"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			/*
+				We're going to implement an example of the Observer pattern so
+				that an ArrayCollection can be shared across many DataGrids.
+				
+				This functionality is actually built in to Flex so we need to
+				break the functionality by making sure that whenever we want
+				to pass the dataProvider around, we copy it instead of passing
+				just a reference.
+				
+				To see the application working, modify the data in a DataGrid
+				and then click outside the DataGrid. You should see that when
+				you do that, the other DataGrids update to show your changes.
+			*/
+			
+			import classes.*;
+			
+			public function init():void
+			{
+				// Create the Subject - this will contain the ArrayCollection.
+				var subject:Subject = new ConcreteSubject();
+				
+				/*
+					Create some Observers who can observe the subject and also
+					make changes to it if required. They are all passed
+					reference to the subject and to the application so that
+					they can add display components to it.
+				*/
+				var observer1:Observer = new ConcreteObserver(subject, this);
+				var observer2:Observer = new ConcreteObserver(subject, this);
+				var observer3:Observer = new ConcreteObserver(subject, this);
+				
+				/*
+					Notify the subject of all its observers. This is so that it
+					can loop through an array of them to notify them when it
+					changes.
+				*/
+				subject.Attach(observer1);
+				subject.Attach(observer2);
+				subject.Attach(observer3);
+				
+				/*
+					Start off by telling the subject to notify all of its
+					observers that it has changed i.e. it has been initialised
+					with data. This will call the Update() method on all of
+					them so that they will ask for the latest data.
+				*/
+				subject.Notify();
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+		
+			/*
+				We're going to implement the Visitor pattern which allows you
+				to iterate through a list of objects and perform operations
+				on each element. The implementation of those operations doesn't
+				have to be in the element, it's encapsulated here in a
+				visitor object.
+				
+				Here we have an ObjectStructure which is an array of
+				ConcreteElementAs and ConcreteElementBs. We iterate over the
+				ObjectStructure and call Accept() on each element, passing
+				first ConcreteVisitor1 and then ConcreteVisitor2 as arguments.
+				
+				The Accept() method then tells the visitor to visit it by
+				calling VisitConcreteElementA (or B). This method on the 
+				visitor will then do what it likes to get the data from the
+				element it needs - in our example, it will call OperationA 
+				(or B).
+				
+				It seems complex because the Accept() method calls another
+				method, which then calls another method, which then gets the
+				data from the element by calling yet another method! 
+				
+				There is a reason though for this technique which is called 
+				double-dispatch: the final method that is called is one of 
+				4 possible methods (A1 A2 B1 B2). Which one is called depends
+				on both the class of Element and the class of Visitor, and
+				the methods called in these two, hence double-dispatch.
+			*/
+		
+			import classes.*;
+			
+			public function init():void
+			{
+				/*
+					Create our ObjectStructure, which is just an 
+					ArrayCollection containing an instance of 
+					ConcreteElementA and B. 
+				*/
+				var objectStructure:ObjectStructure = new ObjectStructure();
+				
+				/*
+					Create the different visitors, ConcreteVisitor1 and 2.
+					Each is implemented to get different data from the 
+					elements.
+				*/
+				var concreteVisitor1:ConcreteVisitor1 = new ConcreteVisitor1();
+				var concreteVisitor2:ConcreteVisitor2 = new ConcreteVisitor2();
+				
+				/*
+					Loop over the ObjectStructure. This can be done with an
+					Iterator object, but we'll just loop over the 
+					ArrayCollection. We'll ask each element to accept a 
+					visitor.
+				*/
+				for (var i:String in objectStructure)
+				{
+					objectStructure[i].Accept(concreteVisitor1);
+					objectStructure[i].Accept(concreteVisitor2);
+				}
+				
+				/*
+					Our visitors store the data they have collected in their
+					traversal in an ArrayCollection called data. We'll loop
+					over that for both of our visitors and see what they've
+					collected.
+				*/
+				for (var ii:String in concreteVisitor1.data)
+				{
+					trace(concreteVisitor1.data[ii]);
+				}
+				for (var iii:String in concreteVisitor2.data)
+				{
+					trace(concreteVisitor2.data[iii]);
+				}
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

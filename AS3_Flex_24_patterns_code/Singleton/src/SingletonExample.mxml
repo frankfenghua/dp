@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import classes.Singleton;
+			public function init():void
+			{
+				// Ask for a singleton.
+				var mySingleton:Singleton = Singleton.instance;
+				
+				// Modify it's property.
+				mySingleton.property = "Original.";
+				
+				// Ask for another singleton.
+				var mySecondSingleton:Singleton = Singleton.instance;
+				
+				// Modify the property on the first instance.
+				mySingleton.property = "Modified.";
+				
+				/* 
+					If this is the Singleton pattern, the second singleton will be the same
+					as the first and therefore have the "Modified." property.
+				*/
+				trace(mySingleton.property);
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

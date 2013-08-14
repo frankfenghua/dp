@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="horizontal"
+	horizontalAlign="center"
+	verticalAlign="middle"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			/*
+				We're going to implement an example of the TemplateMethod,
+				which allows you to make sure that all subclasses operate
+				in the same way.
+				
+				We're going to define an AbstractCanvas class, which shouldn't
+				be instantiated directly. It defines a TemplateMethod() and 
+				this calls the following methods in order:
+				SetColor(), 
+				SetSize(), 
+				SetContent().
+				
+				The subclasses of AbstractCanvas, BlueCanvas and Pink canvas
+				simply have to override these methods, in the knowledge
+				that they will be called in order by the TemplateMethod()
+				in the superclass.
+			*/
+			
+			import classes.*;
+			
+			public function init():void
+			{
+				/*
+					Create and add the blue and pink canvases to the 
+					application.
+				*/
+				var blueCanvas:AbstractCanvas = new BlueCanvas();
+				var pinkCanvas:AbstractCanvas = new PinkCanvas();
+				addChild(blueCanvas);
+				addChild(pinkCanvas);
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

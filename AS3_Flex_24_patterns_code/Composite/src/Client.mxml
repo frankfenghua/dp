@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import classes.Leaf;
+			import classes.Composite;
+			public function init():void
+			{
+				/*
+					We're going to build a hierarchial tree of leaves and
+					composites and then use breakpoints to see how the tree
+					looks at various points in its composition.
+					
+					At the first break point (line 50), we can drill down 
+					through comp1 to see it contains a composite which 
+					contains a composite, recursive to 5 levels.
+					
+					At the last break point (line 55), we can drill down 
+					through the comp1 composite to see that it contains a 
+					composite and a leaf. If we expand its composite, we 
+					can see that this also contains a composite and a leaf, 
+					all the way down to level 5. 
+				*/
+				
+				// Create some compositions.
+				var comp1:Composite = new Composite("comp1");
+				var comp2:Composite = new Composite("comp2");
+				var comp3:Composite = new Composite("comp3");
+				var comp4:Composite = new Composite("comp4");
+				var comp5:Composite = new Composite("comp5");
+				
+				// Create some leaves.
+				var leaf1:Leaf = new Leaf("leaf1");
+				var leaf2:Leaf = new Leaf("leaf2");
+				var leaf3:Leaf = new Leaf("leaf3");
+				var leaf4:Leaf = new Leaf("leaf4");
+				var leaf5:Leaf = new Leaf("leaf5");
+				
+				// Build the compositions in to a hierarcy.
+				comp1.Add(comp2);
+				comp2.Add(comp3);
+				comp3.Add(comp4);
+				comp4.Add(comp5);
+				
+				// Add some leaves.
+				comp1.Add(leaf1);
+				comp2.Add(leaf2);
+				comp3.Add(leaf3);
+				comp4.Add(leaf4);
+				comp5.Add(leaf5);
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

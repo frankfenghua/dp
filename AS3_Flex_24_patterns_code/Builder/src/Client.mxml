@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+		
+			import classes.*
+			
+			public function init():void {
+				
+				// Create a director, which tells the builder what to do.
+				var director:Director = new Director();
+				
+				// Create a builder of a certain type, we have 1 or 2.
+				var builder:ConcreteBuilder1 = new ConcreteBuilder1();
+				// var builder:ConcreteBuilder2 = new ConcreteBuilder2();
+				
+				// Tell the director to construct with the given builder.
+				director.Construct(builder);
+				
+				// Ask the builder for the product.
+				var product:Product = builder.GetResult();
+				
+				trace("Product type is " + product.productType);
+				trace("Product parts is " + product.productParts);
+				
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

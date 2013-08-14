@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="horizontal"
+	horizontalAlign="center"
+	verticalAlign="middle"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			/*
+				We're going to implement the Command pattern, where requests
+				are objects that have an Execute() and UnExecute() method.
+				We can then add these to an array and maintain an index of
+				where we are in the array so that we can go backwards and
+				forwards as much as we like. If a user has undone a few steps
+				and then adds something new, all future redos are lost.
+			*/
+			import mx.controls.Menu;
+			import classes.Command;
+			import classes.MenuItem;
+			import classes.ColorCommand;
+			import mx.events.ListEvent;
+			import mx.events.ItemClickEvent;
+			import mx.collections.ArrayCollection;
+			
+			/*
+				Create a menu array, which will hold commands that we can
+				request.
+			*/
+			[Bindable] public var menu:ArrayCollection = new ArrayCollection();
+			
+			/*
+				Create a history array to store command that have been 
+				requested. This is a hidden internal history as it isn't
+				displayed to the user.
+			*/
+			[Bindable] public var history:ArrayCollection = new ArrayCollection();
+			
+			/*
+				Create the history that the user sees. This is the same as the
+				hidden array unless a user has pressed undo, in which case
+				items are removed from it.
+			*/
+			[Bindable] public var historyDisplay:ArrayCollection = new ArrayCollection();
+			
+			/*
+				In this example the receiver is always the whole canvas, but
+				in reality this would change to the currently selected item.
+			*/
+			public var receiver:Canvas;
+			
+			/*
+				This is where we are in the hidden history, so that we can
+				go backwards and forwards.
+			*/
+			public var historyIndex:int = -1;
+			
+			public function init():void
+			{
+				/*
+					Set the receiver to be the canvas in the middle.
+				*/
+				receiver = documentView;
+				
+				/*
+					Add a load of menu items, which each has a ColorCommand for 
+					changing the color of the canvas.
+				*/
+				menu.addItem(new MenuItem("Red", new ColorCommand(receiver, 0xff0000)));
+				menu.addItem(new MenuItem("Orange", new ColorCommand(receiver, 0xff9900)));
+				menu.addItem(new MenuItem("Yellow", new ColorCommand(receiver, 0xffff00)));
+				menu.addItem(new MenuItem("Green", new ColorCommand(receiver, 0x00ff00)));
+				menu.addItem(new MenuItem("Blue", new ColorCommand(receiver, 0x0000ff)));
+				menu.addItem(new MenuItem("Indigo", new ColorCommand(receiver, 0x9900ff)));
+				menu.addItem(new MenuItem("Violet", new ColorCommand(receiver, 0xff00ff)));
+				menu.addItem(new MenuItem("White", new ColorCommand(receiver, 0xffffff)));
+				menu.addItem(new MenuItem("Grey", new ColorCommand(receiver, 0x999999)));
+				menu.addItem(new MenuItem("Black", new ColorCommand(receiver, 0x000000)));
+			}
+			
+			public function menuClickHandler(event:ListEvent):void
+			{
+				/*
+					We need to make a copy of the MenuItem so that
+					we can store it without it being changed. This
+					is an example of the Prototype pattern.
+				*/
+				var menuItem:MenuItem = new MenuItem
+				(
+					menu[event.rowIndex].name, 
+					new ColorCommand
+					(
+						menu[event.rowIndex].command.receiver, 
+						menu[event.rowIndex].command.thisColor
+					)
+				);
+				
+				/*
+					Call the Execute() method and increment the history.
+				*/
+				menuItem.command.Execute();
+				historyIndex++;
+				
+				/*
+					Add the MenuItem containing the Command to the hidden
+					history and the history that the user can see.
+				*/				
+				history.addItem(menuItem);
+				historyDisplay.addItem(menuItem);
+				
+				/*
+					If a user tries to add something after they've already
+					undone a couple of steps, the steps they have undone
+					will be lost. So we replace the hidden history with the 
+					one that the user can see.
+				*/
+				if (historyIndex < history.length - 1)
+				{
+					history.removeAll();
+					for (var i:int = 0; i < historyDisplay.length; i++)
+					{
+						history.addItem(historyDisplay[i]);
+					}
+					historyIndex = historyDisplay.length - 1;
+				}
+			}
+			
+			public function undoHandler():void
+			{
+				/*
+					If a user has clicked undo and they're not at the beginning,
+					call the UnExecute method in our history and remove the
+					command from the history the user can see.
+				*/
+				if (historyIndex >= 0)
+				{
+					history[historyIndex].command.UnExecute();
+					historyDisplay.removeItemAt(historyIndex);
+					historyIndex--
+				}
+			}
+			
+			public function redoHandler():void
+			{
+				if (history.length - 1 > historyIndex)
+				{
+					/*
+						If the user has clicked redo and they're not at the end
+						of the history, add an item from our hidden history to
+						their visible history. Increment the index of course.
+					*/
+					historyIndex++
+					history[historyIndex].command.Execute();
+					historyDisplay.addItem(history[historyIndex]);
+				}
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:HBox 
+		width="600" 
+		height="400" 
+		backgroundColor="#FFFFFF"
+		paddingBottom="10" 
+		paddingLeft="10" 
+		paddingRight="10" 
+		paddingTop="10">
+		
+		<mx:DataGrid id="menuView" 
+			width="30%" 
+			height="100%" 
+			dataProvider="{menu}" 
+			itemClick="menuClickHandler(event)">
+			<mx:columns>
+				<mx:DataGridColumn headerText="Menu" dataField="name" />
+			</mx:columns>
+		</mx:DataGrid>
+		
+		<mx:Canvas id="documentView" 
+			width="40%" 
+			height="100%" 
+			backgroundColor="#ffffff"
+			borderColor="#B7BABC"  
+			borderStyle="solid" 
+			borderThickness="1"/>
+			
+		<mx:VBox 
+			width="30%" 
+			height="100%">
+			<mx:HBox 
+				width="100%">
+				<mx:Button 
+					label="Undo" 
+					width="50%" 
+					click="undoHandler()" />
+				<mx:Button 
+					label="Redo" 
+					width="50%" 
+					click="redoHandler()" />
+			</mx:HBox>
+			<mx:DataGrid id="historyView"
+				width="100%" 
+				height="100%"
+				dataProvider="{historyDisplay}">
+				<mx:columns>
+					<mx:DataGridColumn 
+						headerText="History" 
+						dataField="name" />
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:VBox>
+		
+	</mx:HBox>
+	
+</mx:Application>

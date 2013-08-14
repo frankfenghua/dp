@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="vertical"
+	verticalAlign="middle"
+	horizontalAlign="center">
+	
+	<mx:Script>
+		<![CDATA[
+			
+			/*
+				We're going to implement the Strategy pattern, which will allow
+				us to use different classes to perform the same function in
+				different ways.
+				
+				Here we have an example that deals with the composition of text
+				i.e. when to put a line break in. The DefaultCompositor doesn't
+				put any line breaks in, the LetterCompositor counts the number
+				of letters to put line breaks in, and the WordCompositor
+				counts the number of words. To use a different method we just
+				change our compositor instance to an object of the class
+				that implements the functionality we want.
+			*/
+			
+			import classes.*;
+			
+			public function defaultComposeHandler():void
+			{
+				// Create a DefaultCompositor.
+				var compositor:Compositor = new DefaultCompositor();
+				
+				// Use it to compose the text in are text area.
+				textArea.text = compositor.Compose(textArea.text);
+			}
+			
+			public function letterComposeHandler():void
+			{
+				// Create a LetterCompositor.
+				var compositor:Compositor = new LetterCompositor();
+				
+				// Use it to compose the text in are text area.
+				textArea.text = compositor.Compose(textArea.text);
+			}
+			
+			public function wordComposeHandler():void
+			{
+				// Create a WordCompositor.
+				var compositor:Compositor = new WordCompositor();
+				
+				// Use it to compose the text in are text area.
+				textArea.text = compositor.Compose(textArea.text);
+			}
+			
+		]]>
+	</mx:Script>
+		
+	<!-- 3 large buttons that compose the text with different compositors. -->
+	<mx:HBox
+		width="600">
+		<mx:Button 
+			label="Use Default Compositor" click="defaultComposeHandler()" 
+			fillColors="[0xffcccc, 0xff0000]"
+			width="33%"
+			height="100" />
+		<mx:Button label="Use Letter Compositor" click="letterComposeHandler()"
+			fillColors="[0xfccffcc, 0x00ff00]"
+			width="33%"
+			height="100" />
+		<mx:Button label="Use Word Compositor" click="wordComposeHandler()"
+			fillColors="[0xccccff, 0x0000ff]"
+			width="33%"
+			height="100" />
+	</mx:HBox>
+	
+	<!-- The text area that displays some text. -->
+	<mx:TextArea
+		id="textArea" 
+		text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+		width="600"
+		height="400"
+		fontFamily="Courier New"
+		fontSize="20" />
+	
+</mx:Application>

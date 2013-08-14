@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import classes.Target;
+			
+			/*
+				This is an object adapter - a class adapter requires multiple inheritance which
+				ActionScript doesn't support.
+			*/
+			
+			public function init():void
+			{
+				/* 
+					Create the target object and call its Request() method. If
+					the Adaptor has worked, the SpecificRequest() method will
+					be called on the Adaptee.
+				*/
+				var target:Target = new Target();
+				trace(target.Request());
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

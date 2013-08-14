@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			/*
+				The Interpreter pattern represents a language with grammatical
+				rules as a heirarchy of objects as in the Composite pattern.
+				
+				In this example, we will represent Boolean expressions for
+				example; (true and x) or (y and (not x)).
+				
+				We can change the values of x and y independently and see 
+				whether the entire expression evaluates to true or false.
+			*/	
+			import classes.*
+			public function init():void
+			{
+				
+				/*
+					Define a variable to hold the whole Boolean expression.
+				*/
+				var expression:BooleanExp;
+				
+				/*
+					Create the context where we can store x and y.
+				*/
+				var context:Context = new Context();
+				
+				/*
+					Create x and y as Variable Expressions.
+				*/
+				var x:VariableExp = new VariableExp("X");
+				var y:VariableExp = new VariableExp("Y");
+				
+				/*
+					Create the Boolean Expression and pass in other expressions
+					which can use various operators, depending on what class of
+					object they are.
+				*/
+				expression = new OrExp
+				(
+					new AndExp(new Constant(true), x),
+					new AndExp(y, new NotExp(x))
+				);
+				
+				/*
+					Give x and y their values, based on their names ("X" and 
+					"Y"). The context object will look up the relevant
+					Variable Expressions and assign either true or false.
+				*/
+				context.Assign(x, false);
+				context.Assign(y, true);
+				
+				/*
+					Evaluate the Boolean Expression, which will call the
+					Evaluate() method recursively through the tree until
+					it can return the result.
+				*/
+				trace(expression.Evaluate(context));
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

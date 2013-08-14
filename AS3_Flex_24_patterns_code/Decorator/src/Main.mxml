@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:co="components.*" 
+	layout="vertical"
+	verticalAlign="middle"
+	horizontalAlign="center"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.containers.Canvas;
+			import classes.VisualComponent;
+			import classes.BorderDecorator;
+			import mx.controls.Image;
+			import flash.display.Sprite;
+		
+			/*
+				This is going to be a more real-world example than the previous
+				patterns. We'll attempt to implement a decorator which can add
+				a border to a visual component.
+			*/
+			public function init():void
+			{
+				/* 
+					Create the initial component which is just a Canvas with a
+					white background and a width and height of 100.
+				*/
+				var vc:VisualComponent = new VisualComponent();
+				vc.Draw();
+				
+				/*
+					Pass the component to the border decorator to give it
+					a border and then draw it. Do this as many times as you
+					want to add more borders.
+				*/
+				var bd:BorderDecorator = new BorderDecorator(vc, 3, 0xFF0000);
+				bd.Draw();
+				var bd2:BorderDecorator = new BorderDecorator(bd, 3, 0x00FF00);
+				bd2.Draw();
+				var bd3:BorderDecorator = new BorderDecorator(bd2, 3, 0x0000FF);
+				bd3.Draw();
+				
+				addChild(bd3);
+			}
+			
+		]]>
+	</mx:Script>
+	
+</mx:Application>

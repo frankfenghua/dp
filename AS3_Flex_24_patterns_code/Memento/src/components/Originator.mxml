@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas 
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	width="40%" 
+	height="100%" 
+	backgroundColor="#ffffff"
+	borderColor="#B7BABC"  
+	borderStyle="solid" 
+	borderThickness="1">
+	
+	<mx:Script>
+		<![CDATA[
+		
+			import classes.*;
+			
+			/*
+				This is where the Memento is created and given a snapshot
+				of the internal state of this Originator.
+			*/
+			public function CreateMemento(name:String):Memento
+			{
+				var memento:Memento = new Memento();
+				memento.SetState(name, getStyle("backgroundColor"));
+				return memento;
+			}
+		
+			/*
+				This is where this Originator can accept a Memento which
+				contains enough information to restore its state to.
+			*/
+			public function SetMemento(m:Memento):void
+			{
+				setStyle("backgroundColor", m.GetState());
+			}
+			 
+		]]>
+	</mx:Script>
+	
+</mx:Canvas>

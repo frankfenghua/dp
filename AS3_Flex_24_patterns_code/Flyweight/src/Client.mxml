@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="horizontal"
+	creationComplete="init()"
+	backgroundGradientColors="[0xffffff,0xffffff]">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import classes.*;
+			public function init():void
+			{
+				/*
+					The Flyweight pattern allows you to create a pool of
+					objects and reuse them by using pointers to them
+					instead of new instances. This allows your application
+					to have less instances and therefore use less memory.
+					
+					In this example, we're going to create a shared
+					pool of characters as in a word proccesor. Each
+					object in the pool can store which character it's 
+					using intrinsically but the style information is 
+					maintained in a separate tree of data which tracks 
+					runs of characters using the same style.
+					
+					Unfortunately, Flex can't really implement the
+					Flyweight pattern because this pattern relies
+					on pointers or references. However, this example
+					does show the basic concepts.
+				*/
+				
+				/* 
+					Create an array of characters in this document.
+				*/
+				var chars:ArrayCollection = new ArrayCollection();
+				
+				/* 
+					Create a tree to store style information as runs of
+					characters. For example, blue for 6 characters.
+				*/
+				var styles:GlyphContext = new GlyphContext();
+				
+				/*
+					This is the object we've used to actually draw the
+					characters. Flex would draw them for us, but we need
+					control so we can apply the styles.
+				*/
+				var glyph:Glyph;
+				
+				/*
+					Add items to our document, using the FlyweightFactory.
+					If this were a real example, we would be adding
+					pointers to a pool of characters. The pool would
+					check to see if it has that character, and if so
+					return it. Otherwise it would add the character to the
+					pool first.
+				*/
+				chars.addItem(FlyweightFactory.GetFlyweight("H"));
+				chars.addItem(FlyweightFactory.GetFlyweight("e"));
+				chars.addItem(FlyweightFactory.GetFlyweight("l"));
+				chars.addItem(FlyweightFactory.GetFlyweight("l"));
+				chars.addItem(FlyweightFactory.GetFlyweight("o"));
+				chars.addItem(FlyweightFactory.GetFlyweight(" "));
+				chars.addItem(FlyweightFactory.GetFlyweight("W"));
+				chars.addItem(FlyweightFactory.GetFlyweight("o"));
+				chars.addItem(FlyweightFactory.GetFlyweight("r"));
+				chars.addItem(FlyweightFactory.GetFlyweight("l"));
+				chars.addItem(FlyweightFactory.GetFlyweight("d"));
+				chars.addItem(FlyweightFactory.GetFlyweight("!"));
+				
+				/*
+					Our tree of style information has a method that allows us 
+					to add a color and how many characters that color goes on
+					for.
+				*/
+				styles.SetColor(0xff9900, 6); // Hello
+				styles.SetColor(0x0099ff, 5); // World
+				styles.SetColor(0x000000, 1); // !
+				
+				/*
+					We create the glyph object which is responsible for drawing
+					the characters to the screen and applying the style
+					information.
+				*/
+				glyph = new Glyph(chars, styles);
+				
+				// We add the glyph to the screen.
+				addChild(glyph);
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

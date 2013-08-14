@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import classes.*;
+			public function init():void
+			{
+				// Create a prototype of type 1.
+				var product1a:ConcretePrototype1 = new ConcretePrototype1();
+				
+				// Copy the prototype and it should also be type 1.
+				var product1b:Prototype = product1a.Clone();
+
+				// Create a prototype of type 2.
+				var product2a:ConcretePrototype2 = new ConcretePrototype2();
+				
+				// Copy the prototype and it should also be type 2.
+				var product2b:Prototype = product2a.Clone();
+
+				// See what types of products we have.
+				trace("product1a = " + product1a.GetProductType());
+				trace("product1b = " + product1b.GetProductType());
+				trace("product2a = " + product2a.GetProductType());
+				trace("product2b = " + product2b.GetProductType());
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>

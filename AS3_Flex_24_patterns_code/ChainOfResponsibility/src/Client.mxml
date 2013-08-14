@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application 
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	layout="absolute"
+	creationComplete="init()">
+	
+	<mx:Script>
+		<![CDATA[
+			import classes.Handler;
+			import classes.ConcreteHandler;
+			public function init():void
+			{
+				/*
+					The Chain of Responsibility pattern is essentially what
+					Flex and Flash use when you add event listeners and
+					dispatch events.
+					
+					However, I've implemented a version of that here so that we
+					can see what's going on behind the scenes. Some objects
+					have been composed in to a tree, and then the one at the
+					deepest level of the tree is asked for a response. If it
+					has a string to respond with, it will. Otherwise it will
+					forward the request to its parent.
+				*/
+				
+				/*
+					Create a tree of Handlers where all of the nodes have
+					a response (which is just a string to return).
+				*/
+				var level1:ConcreteHandler = new ConcreteHandler(this, "Level 1 Handler");
+				var level2:ConcreteHandler = new ConcreteHandler(level1, "Level 2 Handler");
+				var level3:ConcreteHandler = new ConcreteHandler(level2, "Level 3 Handler");
+				var level4:ConcreteHandler = new ConcreteHandler(level3, "Level 4 Handler");
+				var level5:ConcreteHandler = new ConcreteHandler(level4, "Level 5 Handler");
+				
+				/*
+					Call the HandleRequest function on the top level and see
+					where it gets handled.
+				*/
+				trace("Handled by: " + level5.HandleRequest());
+				
+				/*
+					Change some of the Handlers so that they no longer have a
+					response.
+				*/
+				level4._response = "";
+				level5._response = "";
+				
+				/*
+					Call the HandleRequest function on the top level and see
+					where it gets handled.
+				*/
+				trace("Handled by: " + level5.HandleRequest());
+				
+				/*
+					If all has gone well, the first request will have been
+					handled at level 5, but the second time, levels 5 doesn't
+					have a string to respond with so it forwards it to level 4.
+					Level 4 doesn't have a response either, so send it to level
+					3, which does has a response and is able to handle the
+					request.
+				*/
+			}
+		]]>
+	</mx:Script>
+	
+</mx:Application>
